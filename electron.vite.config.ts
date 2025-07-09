@@ -13,6 +13,7 @@ const config: UserConfig = {
             rollupOptions: {
                 external: ['source-map-support'],
             },
+            sourcemap: true,
         },
         define: {
             'import.meta.env.IS_LINUX': JSON.stringify(currentOSEnv === 'linux'),
@@ -46,7 +47,7 @@ const config: UserConfig = {
     renderer: {
         css: {
             modules: {
-                generateScopedName: '[name]__[local]__[hash:base64:5]',
+                generateScopedName: 'fs-[name]-[local]',
                 localsConvention: 'camelCase',
             },
         },

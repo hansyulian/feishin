@@ -91,7 +91,11 @@
         "albumGain": "ganho do álbum",
         "trackPeak": "pico da faixa",
         "albumPeak": "pico do álbum",
-        "trackGain": "ganho da faixa"
+        "trackGain": "ganho da faixa",
+        "additionalParticipants": "participantes adicionais",
+        "tags": "tags",
+        "newVersion": "uma nova versão foi instalada ({{version}})",
+        "viewReleaseNotes": "ver notas de lançamento"
     },
     "action": {
         "goToPage": "vá para página",
@@ -205,7 +209,18 @@
         "buttonSize_description": "o tamanho dos botões da barra de reprodução",
         "albumBackgroundBlur": "tamanho de desfoque da imagem de fundo do álbum",
         "albumBackgroundBlur_description": "ajusta a quantidade de desfoque aplicada para a imagem de fundo do álbum",
-        "albumBackground": "imagem de fundo do álbum"
+        "albumBackground": "imagem de fundo do álbum",
+        "contextMenu_description": "permite esconder itens exibidos no menu quando você clica em um item com o botão direito. itens não selecionados serão escondidos",
+        "customCssEnable": "habilitar css customizado",
+        "customCssEnable_description": "permite escrever css customizado.",
+        "crossfadeDuration": "duraçao de crossfade",
+        "customCss": "css customizado",
+        "crossfadeDuration_description": "define a duração do efeito crossfade",
+        "customCssNotice": "Aviso: apesar de existir alguma higienização (url() e content: não são permitidas), o uso de CSS personalizado ainda pode representar riscos ao alterar a interface.",
+        "crossfadeStyle": "estilo do crossfade",
+        "crossfadeStyle_description": "seleciona qual estilo de crossfade usado no player de áudio",
+        "disableAutomaticUpdates": "desabilitar atualizações automáticas",
+        "disableLibraryUpdateOnStartup": "desabilitar a verificação de novas versões na inicialização"
     },
     "table": {
         "config": {
@@ -262,7 +277,8 @@
             "nowPlaying": "tocando agora",
             "playlists": "$t(entity.playlist_other)",
             "search": "$t(common.search)",
-            "settings": "$t(common.setting_other)"
+            "settings": "$t(common.setting_other)",
+            "myLibrary": "minha biblioteca"
         },
         "playlistList": {
             "title": "$t(entity.playlist_other)"
@@ -524,6 +540,7 @@
         "loginRateError": "muitas tentativas de login, tente novamente em alguns segundos",
         "badAlbum": "você está vendo este erro por que está música não é parte de algum album. um motivo comum para você estar vendo este erro é se a sua música estiver na raiz da sua pasta de músicas. o jellyfin apenas agrupa as músicas se elas estiveram na mesma pasta.",
         "networkError": "ocorreu um erro na internet",
-        "openError": "não foi possível abrir o arquivo"
+        "openError": "não foi possível abrir o arquivo",
+        "badValue": "opção inválida \"{{value}}\". este valor não existe no momento"
     }
 }

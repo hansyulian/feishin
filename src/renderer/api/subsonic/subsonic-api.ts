@@ -5,8 +5,8 @@ import qs from 'qs';
 import { z } from 'zod';
 
 import i18n from '/@/i18n/i18n';
-import { toast } from '/@/renderer/components/toast/index';
 import { ssType } from '/@/shared/api/subsonic/subsonic-types';
+import { toast } from '/@/shared/components/toast/toast';
 import { ServerListItem } from '/@/shared/types/domain-types';
 
 const c = initContract();
@@ -251,6 +251,9 @@ axiosClient.interceptors.response.use(
                     message: data['subsonic-response'].error.message,
                     title: i18n.t('error.genericError', { postProcess: 'sentenceCase' }) as string,
                 });
+
+                // Since we do status === 200, override this value with the error code
+                response.status = data['subsonic-response'].error.code;
             }
         }
 

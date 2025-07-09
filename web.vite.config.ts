@@ -17,12 +17,21 @@ export default defineConfig({
                 assetFileNames: 'assets/[name].[ext]',
             },
         },
+        sourcemap: true,
     },
     css: {
         modules: {
-            generateScopedName: '[name]__[local]__[hash:base64:5]',
             localsConvention: 'camelCase',
         },
+    },
+    optimizeDeps: {
+        exclude: [
+            '@atlaskit/pragmatic-drag-and-drop',
+            '@atlaskit/pragmatic-drag-and-drop-auto-scroll',
+            '@atlaskit/pragmatic-drag-and-drop-hitbox',
+            '@tanstack_react-query-persist-client',
+            'idb-keyval',
+        ],
     },
     plugins: [
         react(),

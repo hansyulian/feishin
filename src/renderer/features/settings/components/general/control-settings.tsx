@@ -1,16 +1,24 @@
-import { Group } from '@mantine/core';
 import { t } from 'i18next';
 import isElectron from 'is-electron';
 import { useTranslation } from 'react-i18next';
 
-import { NumberInput, Select, Slider, Switch, Tooltip } from '/@/renderer/components';
-import { SettingsSection } from '/@/renderer/features/settings/components/settings-section';
+import {
+    SettingOption,
+    SettingsSection,
+} from '/@/renderer/features/settings/components/settings-section';
 import {
     GenreTarget,
     SideQueueType,
     useGeneralSettings,
     useSettingsStoreActions,
 } from '/@/renderer/store/settings.store';
+import { Group } from '/@/shared/components/group/group';
+import { NumberInput } from '/@/shared/components/number-input/number-input';
+import { Select } from '/@/shared/components/select/select';
+import { Slider } from '/@/shared/components/slider/slider';
+import { Switch } from '/@/shared/components/switch/switch';
+import { Text } from '/@/shared/components/text/text';
+import { Tooltip } from '/@/shared/components/tooltip/tooltip';
 import { Play } from '/@/shared/types/types';
 
 const localSettings = isElectron() ? window.api.localSettings : null;
@@ -37,7 +45,7 @@ export const ControlSettings = () => {
     const settings = useGeneralSettings();
     const { setSettings } = useSettingsStoreActions();
 
-    const controlOptions = [
+    const controlOptions: SettingOption[] = [
         {
             control: (
                 <NumberInput
@@ -56,7 +64,7 @@ export const ControlSettings = () => {
                             },
                         });
                     }}
-                    rightSection="px"
+                    rightSection={<Text size="sm">px</Text>}
                     width={75}
                 />
             ),
@@ -80,7 +88,7 @@ export const ControlSettings = () => {
                         setSettings({ general: { ...settings, albumArtRes: newVal } });
                     }}
                     placeholder="0"
-                    rightSection="px"
+                    rightSection={<Text size="sm">px</Text>}
                     value={settings.albumArtRes ?? 0}
                     width={75}
                 />
@@ -343,7 +351,7 @@ export const ControlSettings = () => {
                         });
                     }}
                     placeholder="0"
-                    rightSection="px"
+                    rightSection={<Text size="sm">px</Text>}
                     width={75}
                 />
             ),
@@ -395,6 +403,48 @@ export const ControlSettings = () => {
                 postProcess: 'sentenceCase',
             }),
             title: t('setting.externalLinks', { postProcess: 'sentenceCase' }),
+        },
+        {
+            control: (
+                <Switch
+                    defaultChecked={settings.lastFM}
+                    onChange={(e) => {
+                        setSettings({
+                            general: {
+                                ...settings,
+                                lastFM: e.currentTarget.checked,
+                            },
+                        });
+                    }}
+                />
+            ),
+            description: t('setting.lastfm', {
+                context: 'description',
+                postProcess: 'sentenceCase',
+            }),
+            isHidden: !settings.externalLinks,
+            title: t('setting.lastfm', { postProcess: 'sentenceCase' }),
+        },
+        {
+            control: (
+                <Switch
+                    defaultChecked={settings.musicBrainz}
+                    onChange={(e) => {
+                        setSettings({
+                            general: {
+                                ...settings,
+                                musicBrainz: e.currentTarget.checked,
+                            },
+                        });
+                    }}
+                />
+            ),
+            description: t('setting.musicbrainz', {
+                context: 'description',
+                postProcess: 'sentenceCase',
+            }),
+            isHidden: !settings.externalLinks,
+            title: t('setting.musicbrainz', { postProcess: 'sentenceCase' }),
         },
         {
             control: (
@@ -504,7 +554,7 @@ export const ControlSettings = () => {
         {
             control: (
                 <Switch
-                    aria-label={t('setting.playerbarOpenDrawer ', { postProcess: 'sentenceCase' })}
+                    aria-label={t('setting.playerbarOpenDrawer', { postProcess: 'sentenceCase' })}
                     defaultChecked={settings.playerbarOpenDrawer}
                     onChange={(e) =>
                         setSettings({

@@ -23,6 +23,13 @@ export default defineConfig({
                 entryFileNames: '[name].js',
             },
         },
+        sourcemap: true,
+    },
+    css: {
+        modules: {
+            generateScopedName: 'fs-[name]-[local]',
+            localsConvention: 'camelCase',
+        },
     },
     plugins: [
         react(),

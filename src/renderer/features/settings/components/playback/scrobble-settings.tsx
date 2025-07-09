@@ -1,11 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import { NumberInput, Slider, Switch } from '/@/renderer/components';
 import {
     SettingOption,
     SettingsSection,
 } from '/@/renderer/features/settings/components/settings-section';
 import { usePlaybackSettings, useSettingsStoreActions } from '/@/renderer/store/settings.store';
+import { NumberInput } from '/@/shared/components/number-input/number-input';
+import { Slider } from '/@/shared/components/slider/slider';
+import { Switch } from '/@/shared/components/switch/switch';
+import { toast } from '/@/shared/components/toast/toast';
 
 export const ScrobbleSettings = () => {
     const { t } = useTranslation();
@@ -79,7 +82,7 @@ export const ScrobbleSettings = () => {
                                 ...settings,
                                 scrobble: {
                                     ...settings.scrobble,
-                                    scrobbleAtDuration: e,
+                                    scrobbleAtDuration: Number(e),
                                 },
                             },
                         });
@@ -92,6 +95,52 @@ export const ScrobbleSettings = () => {
                 postProcess: 'sentenceCase',
             }),
             title: t('setting.minimumScrobbleSeconds', { postProcess: 'sentenceCase' }),
+        },
+        {
+            control: (
+                <Switch
+                    aria-label="Toggle notify"
+                    defaultChecked={settings.scrobble.notify}
+                    onChange={async (e) => {
+                        if (Notification.permission === 'denied') {
+                            toast.error({
+                                message: t('error.notificationDenied', {
+                                    postProcess: 'sentenceCase',
+                                }),
+                            });
+                            return;
+                        }
+
+                        if (Notification.permission !== 'granted') {
+                            const permissions = await Notification.requestPermission();
+                            if (permissions !== 'granted') {
+                                toast.error({
+                                    message: t('error.notificationDenied', {
+                                        postProcess: 'sentenceCase',
+                                    }),
+                                });
+                                return;
+                            }
+                        }
+
+                        setSettings({
+                            playback: {
+                                ...settings,
+                                scrobble: {
+                                    ...settings.scrobble,
+                                    notify: e.currentTarget.checked,
+                                },
+                            },
+                        });
+                    }}
+                />
+            ),
+            description: t('setting.notify', {
+                context: 'description',
+                postProcess: 'sentenceCase',
+            }),
+            isHidden: !('Notification' in window),
+            title: t('setting.notify', { postProcess: 'sentenceCase' }),
         },
     ];
 

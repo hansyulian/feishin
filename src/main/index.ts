@@ -49,7 +49,7 @@ export default class AppUpdater {
 protocol.registerSchemesAsPrivileged([{ privileges: { bypassCSP: true }, scheme: 'feishin' }]);
 
 process.on('uncaughtException', (error: any) => {
-    console.log('Error in main process', error);
+    console.error('Error in main process', error);
 });
 
 if (store.get('ignore_ssl')) {
@@ -65,7 +65,6 @@ if (isLinux() && !process.argv.some((a) => a.startsWith('--password-store='))) {
 let mainWindow: BrowserWindow | null = null;
 let tray: null | Tray = null;
 let exitFromTray = false;
-let forceQuit = false;
 
 if (process.env.NODE_ENV === 'production') {
     import('source-map-support').then((sourceMapSupport) => {
@@ -449,12 +448,51 @@ async function createWindow(first = true): Promise<void> {
         store.set('fullscreen', mainWindow?.isFullScreen());
 
         if (!exitFromTray && store.get('window_exit_to_tray')) {
-            if (isMacOS() && !forceQuit) {
-                exitFromTray = true;
-            }
             event.preventDefault();
             mainWindow?.hide();
         }
+
+        // if (!saved && store.get('resume')) {
+        //     event.preventDefault();
+        //     saved = true;
+
+        //     ipcMain.once('player-save-queue', async (_event, data: Record<string, any>) => {
+        //         const queueLocation = join(app.getPath('userData'), 'queue');
+        //         const serialized = JSON.stringify(data);
+
+        //         try {
+        //             await new Promise<void>((resolve, reject) => {
+        //                 deflate(serialized, { level: 1 }, (error, deflated) => {
+        //                     if (error) {
+        //                         reject(error);
+        //                     } else {
+        //                         writeFile(queueLocation, deflated, (writeError) => {
+        //                             if (writeError) {
+        //                                 reject(writeError);
+        //                             } else {
+        //                                 resolve();
+        //                             }
+        //                         });
+        //                     }
+        //                 });
+        //             });
+        //         } catch (error) {
+        //             console.error('error saving queue state: ', error);
+        //         } finally {
+        //             if (!isMacOS()) {
+        //                 mainWindow?.close();
+        //             }
+        //             if (forceQuit) {
+        //                 app.exit();
+        //             }
+        //         }
+        //     });
+        //     getMainWindow()?.webContents.send('renderer-save-queue');
+        // } else {
+        //     if (forceQuit) {
+        //         app.exit();
+        //     }
+        // }
     });
 
     (mainWindow as any).on('minimize', (event: any) => {
@@ -469,9 +507,7 @@ async function createWindow(first = true): Promise<void> {
     }
 
     if (isMacOS()) {
-        app.on('before-quit', () => {
-            forceQuit = true;
-        });
+        app.on('before-quit', () => {});
     }
 
     const menuBuilder = new MenuBuilder(mainWindow);
