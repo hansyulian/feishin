@@ -4,7 +4,7 @@ import { InfiniteRowModelModule } from '@ag-grid-community/infinite-row-model';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import isElectron from 'is-electron';
-import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/dates/styles.css';
